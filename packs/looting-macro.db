@@ -1,0 +1,1 @@
+{"name":"Looting","type":"script","author":"9cwLoJNcivGlzfKK","img":"icons/svg/dice-target.svg","scope":"global","command":"let action = new InnocentiLoot.Loot();\nawait action.Check();","folder":null,"sort":0,"permission":{"default":0,"9cwLoJNcivGlzfKK":3},"flags":{"core":{"sourceId":"Macro.4EF55MrKqHBYzI0m"}},"_id":"BJetNXf3ruw4LJRx"}

@@ -1,0 +1,53 @@
+{
+  "Looting.MsgChat": {
+    "looting": "Looting",
+    "Currency": "Currency"
+  },
+  "Looting.Errors": {
+    "noSelect": "Select a token",
+    "noToken": "No token is targeted",
+    "novalidLoot": " not a valid Loot",
+    "invalidDistance": "The maximum distance for this interaction is: {dist} grids",
+    "invalidCheck": "{token} already been looted",
+    "isalive": "The target is alive!",
+    "thesame": "the looting token is the same as the loot token",
+    "notItem": "the item not exist in world"
+  },
+  "Looting.Settings": {
+    "percentWeapon": "Weapons Loot (%)",
+    "percentWeaponHint": "Percentage chance of weapons in the NPC inventory not being looting (ie. too damaged for use)",
+    "percentEquipment": "Equipment Loot (%)",
+    "percentEquipmentHint": "Percentage chance of equipment in the NPC inventory not being looting (ie. too damaged for use)",
+    "percentConsumable": "Consumable Loot (%)",
+    "percentConsumableHint": "Percentage chance of consumable in the NPC inventory not being looting (too damaged for use)",
+    "removeItem": "Remove Item from token",
+    "removeItemHint": "If enabled it removes items from the token (does not remove from the actor unless the token is linked)",
+    "interactDistance": "Maximum distance to interact (in grids)",
+    "interactDistanceHint": "the maximum distance for players to interact with the lock in number of grids",
+    "lootSystem": "Loot System",
+    "lootSystemHint": "Choose one of the ways to perform the loot (Soon)",
+    "lootEquipable": "Loot equipped items",
+    "lootEquipableHint": "If disabled, the player can not loot equipped items, if enabled the player can loot items equipped but with an additional % of items in that condition",
+    "lootEquipableAgil": "Addict for equipped items (%)",
+    "lootEquipableAgilHint": "Percentage of additional chance of equipped item in NPC not to looting (ie. too damaged for use)",
+    "lootDamage": "Margin for the item to be damaged (%)",
+    "lootDamageHint": "Threshold for item only to suffer damage and price reduction.",
+    "rarityBroken": "Minimal rarity to be broken/damage",
+    "rarityBrokenHint": "The minimum level for the item to be breakable",
+    "pickpoketplayer": "Pick pocket players",
+    "pickpoketplayerHint": "Allows you to pick pocket characters from players",
+    "damageReducePrice": "Damaged item price reducer",
+    "damageReducePriceHint": "Proportion of the value to be reduced on damaged items",
+    "brokenReducePrice": "Broken item price reducer",
+    "brokenReducePriceHint": "Proportion of the value to be reduced on broken items",
+    "fastGpConvert": "Fast sale value",
+    "fastGpConvertHint": "Adjusting the value of the item for quick sale during the looting",
+    "convertBroken": "Convert broken items",
+    "convertBrokenHint": "Way to loot broken items",
+    "brokenType": {
+      "0": "Ignore",
+      "1": "Convert to loot",
+      "2": "Auto sell"
+    }
+  }
+}

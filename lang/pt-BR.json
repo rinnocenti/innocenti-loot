@@ -1,0 +1,54 @@
+{
+  "Looting.MsgChat": {
+    "looting": "Pilhando",
+    "Currency": "Moedas"
+  },
+  "Looting.Errors": {
+    "noSelect": "Selecione um Token",
+    "noToken": "Nenhum token esta marcado como alvo",
+    "novalidLoot": " não é um baú válido",
+    "invalidDistance": "A distancia minima para esta interação é: {dist} quadros",
+    "invalidCheck": "{token} já foi pilhado",
+    "isalive": "O alvo ainda esta vivo!",
+    "notItem": "O item não existe no mundo",
+    "playerTarget": "Personagens de outros jogadores não podem ser pilhados",
+    "noloot": "Não há ´pilhagens"
+  },
+  "Looting.Settings": {
+    "percentWeapon": "Pilhagem de Armas (%)",
+    "percentWeaponHint": "Porcentagem de chance das armas no inventório do NPC não servirem para pilhagem (Foram danificadas)",
+    "percentEquipment": "Pilhagem de equipamento (%)",
+    "percentEquipmentHint": "Porcentagem de chance das armas no inventório do NPC não servirem para pilhagem (Foram danificadas)",
+    "percentConsumable": "Pilhagem de consumivel (%)",
+    "percentConsumableHint": "Porcentagem de chance das armas no inventório do NPC não servirem para pilhagem (Foram danificadas)",
+    "interactDistance": "Distância máxima para interagir (em grade)",
+    "interactDistanceHint": "A distância mimáxima para os jogadores interagirem com a trava em unidades de grade do mapa",
+    "removeItem": "Remover os Itens",
+    "removeItemHint": "Se ativado remove os itens do token (não remove do ator a menos que o token estiver linkado)",
+    "lootSystem": "Sistema de Pilhagem",
+    "lootSystemHint": "Escolha uma das formas para realizar a pilhagem (em breve)",
+    "lootEquipable": "Pilhar equipamentos equipados",
+    "lootEquipableHint": "Se desativado o jogador não poderá pilhar itens equipados, se ativado o jogador poderá pilhar itens equipados porém com um ágio adicional da arma não estar em condição",
+    "lootEquipableAgil": "Ágio para itens equipados (%)",
+    "lootEquipableAgilHint": "Porcentagem de chance adicional do item equipado no NPC não servirem para pilhagem (Foram danificadas)",
+    "lootDamage": "Margem para o item ser denificado (%)",
+    "lootDamageHint": "Limiar para o item apenas sofrer redução de dano e preço.",
+    "rarityBroken": "Raridade minima para sofrer dano/quebrar",
+    "rarityBrokenHint": "Acima desta raridade o item não pode sofrer dano ou quebrar ",
+    "pickpoketplayer": "Permitir saquea personagens jogaveis",
+    "pickpoketplayerHint": "Se selecionado, os jogadores poderão saquear personagens de outros jogadores.",
+    "damageReducePrice": "Redutor de preço de item danificado",
+    "damageReducePriceHint": "Proporção do valor a ser reduzido em itens danificados",
+    "brokenReducePrice": "Redutor de preço de item quebrados",
+    "brokenReducePriceHint": "Proporção do valor a ser reduzido em itens quebrados",
+    "fastGpConvert": "Valor para venda rápida",
+    "fastGpConvertHint": "Ajuste do valor do item para venda rapida durante a pilhagem",
+    "convertBroken": "Converter itens quebrados",
+    "convertBrokenHint": "Forma de pilhar itens quebrados",
+    "brokenType": {
+      "0": "ignorar",
+      "1": "Converter em item",
+      "2": "Auto vender"
+    }
+  }
+}

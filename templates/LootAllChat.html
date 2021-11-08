@@ -1,0 +1,67 @@
+<div class="innocenti-loot assignxp chat-card item-card">
+    <header class="card-header flexrow">
+        <h3 class="item-name">{{lootName}}</h3>
+        <div class="item-controls flexrow" style="text-align:right;">
+            <h3>{{giveloot}}</h3>
+        </div>
+    </header>
+    <div class="message-content" style="margin:5px 0px;">
+        <div class="card-content"></div>
+        <div class="form-group sheet loot">
+            <ol class="items-list inventory-list">
+                <li class="items-header flexrow">
+                    <h3 class="item-name flexrow">Loot</h3>
+                </li>
+                <ol class="item-list">
+                    {{#each items}}
+                    <li class="item flexrow " data-item-id="{{this.id}}">
+                        <div class="item-row flexrow">
+                            <div class="item-name flexrow">
+                                <div class="item-image " style="background-image: url('{{this.data.img}}'); flex: 0 0 30px; ">
+                                </div>
+                                {{#if this.data.flags.innocenti-loot.convertGp}}<s>
+                                    {{/if}}
+                                    <h3 class="item-name flexrow">{{this.name}} x{{this.data.data.quantity}}</h3>
+                                    {{#if this.data.flags.innocenti-loot.convertGp}}
+                                </s><h3>{{this.data.flags.innocenti-loot.convertGp}} gp</h3>{{/if}}
+                            </div>
+                        </div>
+                    </li>
+                    {{/each}}
+                </ol>
+                <ol class="items-list">
+                    <li class="items-header flexrow">
+                        <h3 class="item-name flexrow">cp</h3>
+                        <h3 class="item-name flexrow">sp</h3>
+                        <h3 class="item-name flexrow">gp</h3>
+                        <h3 class="item-name flexrow">ep</h3>
+                        <h3 class="item-name flexrow">pp</h3>
+                    </li>
+                    <ol class="item-list">
+                        <li class="item flexrow">
+                            <div class="item-name">
+                                <h4>{{currency.cp}}</h4>
+                            </div>
+                            <div class="item-name">
+                                <h4>{{currency.sp}}</h4>
+                            </div>
+                            <div class="item-name">
+                                <h4>{{currency.gp}}</h4>
+                            </div>
+                            <div class="item-name">
+                                <h4>{{currency.ep}}</h4>
+                            </div>
+                            <div class="item-name">
+                                <h4>{{currency.pp}}</h4>
+                            </div>
+                        </li>
+                    </ol>
+                </ol>
+
+            </ol>
+        </div>
+    </div>
+    <footer class="card-footer">
+        <span> Razão: <span class="xp-reason">blablabla</span></span>
+    </footer>
+</div>
