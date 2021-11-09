@@ -33,7 +33,6 @@ export class InnocentiLoot {
     }
     static async onMessage(data) {
         // transição de registro de soket master
-        console.log("Chegou AQUI");
         switch (data.action) {
             case 'sendLoot':
                 if (game.user.isGM) {
@@ -46,7 +45,6 @@ export class InnocentiLoot {
                     let gmaction = new GMActions(data);
                     await gmaction.CreateLoot();
                 }
-                await console.log("EM TOOOOODOOOOS")
                 break;
             default:
         }
@@ -54,9 +52,8 @@ export class InnocentiLoot {
     }
     static async onDeleteCombat(combat) {
         if (game.user.isGM) {
-            console.log("END COMBAT", combat);
-            let apploot = new InnLootApp(combat);
-            await apploot.render(true);
+            let apploot = new ActionLoot();
+            await apploot.CheckCombat(combat);
         }
     }
 }
@@ -66,7 +63,7 @@ Hooks.once('init', async function () {
     InnocentiLoot.init();
 });
 Hooks.on("ready", InnocentiLoot.ready);
-//Hooks.on("deleteCombat", InnocentiLoot.onDeleteCombat);
+Hooks.on("deleteCombat", InnocentiLoot.onDeleteCombat);
 window.InnocentiLoot = {
     Loot: ActionLoot
 }

@@ -1,13 +1,9 @@
 import { i18n, setting, log, moduleName, LOOTED } from '../innocenti-loot.js';
-import { LootInventary, InnLootApp } from '../apps/InnLootApp.js';
-import { unionSet, SumObjectsByKey } from '../scripts/MenageItems.js';
+import { InnLootApp } from '../apps/InnLootApp.js';
+import { SumObjectsByKey } from '../scripts/MenageItems.js';
 
 export class ActionLoot {
     constructor() {
-        if (canvas.tokens.controlled.length === 0)
-            return ui.notifications.error(i18n('Looting.Errors.noSelect'));
-        if (!game.user.targets.values().next().value)
-            return ui.notifications.warn(i18n('Looting.Errors.noToken'));
         // Defini o tipo de moedas do systema
         switch (game.system.id.toLowerCase()) {
             case 'dnd5e':
@@ -20,34 +16,29 @@ export class ActionLoot {
         this.modules['better-rolltables'] = game.modules.get("better-rolltables")?.active;
         this.modules['dfreds-pocket-change'] = game.modules.get("dfreds-pocket-change")?.active;
         this.modules['lootsheetnpc5e'] = game.modules.get("lootsheetnpc5e")?.active;
-        this.token = canvas.tokens.controlled[0];
-        this.targets = game.user.targets;
         this.data = {
             loot: [],
             pickpocket: []
         };
     }
-    async Check() {
-        if (this.targets == undefined || this.targets.size <= 0) return;
-        if (this.token == undefined || !this.token) return;
 
-        for (let entity of this.targets) {
+    async CheckTargets(targets, isCombat = false) {
+        for (let entity of targets) {
             //Verifica se o alvo é outro jogador
-            if (setting('pickpoketplayer') === false && entity.actor.type === 'character') {
-                ui.notifications.warn(i18n('Looting.Errors.playerTarget')); continue;
+            if (entity.actor.type === 'character') {
+                if (!isCombat) ui.notifications.warn(i18n('Looting.Errors.playerTarget'));
+                continue;
             }
             // Verifica se o alvo é o mesmo que o ativo
-            if (entity.id == this.token.id) {
+            if (!isCombat && entity.id == this.token.id) {
                 ui.notifications.warn(i18n('Looting.Errors.thesame')); continue;
             }
             // Verificar se esta na distancia em quadros permitido
-            if (this.CheckDistance(entity) != true) continue;
+            if (!isCombat && this.CheckDistance(entity) != true) continue;
 
             if (entity.document.getFlag(moduleName, LOOTED)) {
                 ui.notifications.warn(game.i18n.format("Looting.Errors.invalidCheck", { token: entity.name })); continue;
             }
-            //TODO: Flag para não repetir.
-            //entity.document.setFlag(moduleName, LOOTED, true);
             this.currency = duplicate(entity.actor.data.data.currency);
 
             let items = await this.FilterInventory(entity.actor.items);
@@ -64,6 +55,33 @@ export class ActionLoot {
                 actor: entity.actor, type: type, items: items, currency: this.currency
             });
         }
+    }
+    async CheckCombat(combat) {
+        console.log("COMBAT", combat);
+        
+        let combatantes = combat.combatants._source;
+        this.targets = combatantes.map(combatant => {
+            return canvas.tokens.get(combatant.tokenId);
+        });
+        console.log("COMBATENTS", this.targets);
+        await this.CheckTargets(this.targets, true);
+        if (this.data.loot.length <= 0)
+            return ui.notifications.info(i18n('Looting.Errors.noloot'));
+        if (setting('debug'))
+            log('DATA ', this.data);
+        await this.AttemptLoot();
+        //[{actor,currency,item,type}]
+    }
+    async Check() {
+        if (canvas.tokens.controlled.length === 0)
+            return ui.notifications.error(i18n('Looting.Errors.noSelect'));
+        if (!game.user.targets.values().next().value)
+            return ui.notifications.warn(i18n('Looting.Errors.noToken'));
+        this.token = canvas.tokens.controlled[0];
+        this.targets = game.user.targets;
+        if (this.targets == undefined || this.targets.size <= 0) return;
+        if (this.token == undefined || !this.token) return;
+        await this.CheckTargets(this.targets);
 
         if (this.data.loot.length <= 0 && this.data.pickpocket.length <= 0)
             return ui.notifications.info(i18n('Looting.Errors.noloot'));

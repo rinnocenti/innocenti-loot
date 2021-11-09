@@ -4,14 +4,14 @@ import { GMActions } from '../scripts/gmactions.js';
 export class InnLootApp extends Application {
     constructor(entity, options = {}) {
         super(options);
-        this.targetActor = options.loot;
         let listChar = game.users.filter(chara => chara.character).map(actor => [actor.character.uuid, actor.character.name]);
+        this.lootSheet5e = game.modules.get("lootsheetnpc5e")?.active
         this.giveLootOptions = Object.fromEntries(listChar);
+        this.targetActor = options.loot;
         this.lootName = "Treasure"
         this.loots = options.loot;
         var allcurr = options.loot.map(item => item.currency);
         this.currency = SumProp(allcurr);
-        this.lootSheet5e = game.modules.get("lootsheetnpc5e")?.active
     }
 
     static get defaultOptions() {
@@ -42,7 +42,7 @@ export class InnLootApp extends Application {
             lootsheet: this.lootSheet5e
         };
     }
-    
+
     async ConvertItem2Money(actorCurrency) {
         let sale = 0;
         this.data.loots.map(item => {
@@ -81,7 +81,7 @@ export class InnLootApp extends Application {
         let currency = await this.ConvertItem2Money(wallet);
         let aitems = await this.PrepareItens();
 
-        let dataAction = { action: "createLoot", lootName: lootName, currency: currency, items: aitems, x: _token.x, y: _token.y}
+        let dataAction = { action: "createLoot", lootName: lootName, currency: currency, items: aitems, x: _token.x, y: _token.y }
         if (game.user.isGM) {
             let gmaction = new GMActions(dataAction);
             await gmaction.CreateLoot();
@@ -103,13 +103,13 @@ export class InnLootApp extends Application {
         let currency = await this.ConvertItem2Money(actors.data.data.currency);
         let aitems = await this.PrepareItens();
 
-        
+
         if (game.user.isGM || _token.actor.id == actors.id) {
             await actors.update({ "data.currency": currency });
             await actors.createEmbeddedDocuments("Item", aitems, { noHook: true });
             if (setting('debug')) console.log("LISTA", this);
         } else {
-            game.socket.emit(`module.${moduleName}`, { action:"sendLoot", actor: actors.id, currency: currency, items: aitems });
+            game.socket.emit(`module.${moduleName}`, { action: "sendLoot", actor: actors.id, currency: currency, items: aitems });
         }
 
         //Change Strings Chat
@@ -219,14 +219,14 @@ export class LootInventary {
                                 let price = item.data.data.price * setting('damageReducePrice');
                                 price = Math.round((price + Number.EPSILON) * 100) / 100;
                                 let rDamage = item.data.data?.damage?.parts;
-                                let nDamage = []; 
+                                let nDamage = [];
                                 if (rDamage.length > 0) {
                                     for (var i = 0; i < rDamage.length; i++) {
                                         nDamage.push(["ceil((" + rDamage[i][0] + ")/2)", rDamage[i][1]])
                                     }
                                 }
-                                
-                                let nitem = item.clone({ name: item.name + " (Damage)", 'data.price': price, 'data.quantity': 1, 'data.equipped': false, 'data.damage.parts': nDamage}, { keepId: true });
+
+                                let nitem = item.clone({ name: item.name + " (Damage)", 'data.price': price, 'data.quantity': 1, 'data.equipped': false, 'data.damage.parts': nDamage }, { keepId: true });
                                 checkUni.push(nitem);
                             }
                         }

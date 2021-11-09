@@ -2,7 +2,7 @@
   "name": "innocenti-loot",
   "title": "Innocenti's Loot",
   "description": "Modules for loot from monsters and Npcs",
-  "version": "0.1.0",
+  "version": "0.1.01",
   "minimumCoreVersion": "0.8.0",
   "compatibleCoreVersion": "0.8.9",
   "author": "Renato innocenti",
@@ -75,7 +75,7 @@
   "socket": true,
   "url": "https://github.com/rinnocenti/innocenti-loot",
   "manifest": "https://raw.githubusercontent.com/rinnocenti/innocenti-loot/master/module.json",
-  "download": "https://github.com/rinnocenti/innocenti-loot/archive/main.zip",
+  "download": "https://github.com/rinnocenti/innocenti-loot/archive/refs/heads/master.zip",
   "bugs": "https://github.com/rinnocenti/innocenti-loot/issues",
-  "readme": "https://github.com/rinnocenti/innocenti-loot/blob/main/README.md"
+  "readme": "https://github.com/rinnocenti/innocenti-loot/blob/master/README.md"
 }
