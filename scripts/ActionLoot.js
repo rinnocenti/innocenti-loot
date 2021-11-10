@@ -26,6 +26,7 @@ export class ActionLoot {
         for (let entity of targets) {
             //Verifica se o alvo é outro jogador
             if (entity.actor.type === 'character') {
+                this.token = entity;
                 if (!isCombat) ui.notifications.warn(i18n('Looting.Errors.playerTarget'));
                 continue;
             }
@@ -52,7 +53,7 @@ export class ActionLoot {
 
             items = await this.ConvertLoots(items, this.currencys);
             this.data[`${action}`].push({
-                actor: entity.actor, type: type, items: items, currency: this.currency
+                token: entity.id, actor: entity.actor, type: type, items: items, currency: this.currency
             });
         }
     }

@@ -16,23 +16,14 @@ export const registerSettings = function () {
         config: true,
         default: 1,
         type: Number
-    })
-
-    game.settings.register(MODULE_NAME, "removeItem", {
-        name: game.i18n.localize('Looting.Settings.removeItem'),
-        hint: game.i18n.localize('Looting.Settings.removeItemHint'),
-        scope: "world",
-        config: true,
-        default: true,
-        type: Boolean
     });
-    game.settings.register(MODULE_NAME, "pickpoketplayer", {
-        name: game.i18n.localize('Looting.Settings.pickpoketplayer'),
-        hint: game.i18n.localize('Looting.Settings.pickpoketplayerHint'),
+    game.settings.register(MODULE_NAME, "imageLoot", {
+        name: game.i18n.localize('Looting.Settings.imageLoot'),
+        hint: game.i18n.localize('Looting.Settings.imageLootHint'),
         scope: "world",
         config: true,
-        default: false,
-        type: Boolean
+        default: "icons/svg/chest.svg",
+        type: String
     });
 
     game.settings.register(MODULE_NAME, "lootDamage", {
@@ -175,7 +166,7 @@ export const registerSettings = function () {
         hint: "active debug",//game.i18n.localize('Looting.Settings.interactDistanceHint'),
         scope: "world",
         config: true,
-        default: true,
+        default: false,
         type: Boolean
     })
 }

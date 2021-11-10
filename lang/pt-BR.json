@@ -1,7 +1,18 @@
 {
   "Looting.MsgChat": {
-    "looting": "Pilhando",
-    "Currency": "Moedas"
+    "Loot": "Pilhagem",
+    "Currency": "Moedas",
+    "Damage": "Danificada",
+    "Broken": "Quebrada",
+    "titleLoot": "Pilhagem",
+    "SendLoot": "Enviar Loot para",
+    "NameLoot": "Nome da Pilhagem",
+    "Treasure": "Treasure",
+    "Targets": "Alvos",
+    "Quantity": "Quantidade",
+    "Values": "po/unid",
+    "Sell": "Vender",
+    "TokenLoot": "Token de Pilhagem"
   },
   "Looting.Errors": {
     "noSelect": "Selecione um Token",
@@ -45,10 +56,12 @@
     "fastGpConvertHint": "Ajuste do valor do item para venda rapida durante a pilhagem",
     "convertBroken": "Converter itens quebrados",
     "convertBrokenHint": "Forma de pilhar itens quebrados",
+    "imageLoot": "Imagem da Pilhagem",
+    "imageLootHint": "imagem que sera usado no token da pilhagem",
     "brokenType": {
-      "0": "ignorar",
-      "1": "Converter em item",
-      "2": "Auto vender"
+      "0": "Ignorar",
+      "1": "Converter em Item",
+      "2": "Vender Automaticamente"
     }
   }
 }

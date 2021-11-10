@@ -1,7 +1,18 @@
 {
   "Looting.MsgChat": {
-    "looting": "Looting",
-    "Currency": "Currency"
+    "Loot": "Loot",
+    "Currency": "Currency",
+    "Damage": "Damage",
+    "Broken": "Broken",
+    "titleLoot": "Inventory Loot",
+    "SendLoot": "Send Loot to",
+    "NameLoot": "Loot Name",
+    "Treasure": "Treasure",
+    "Targets": "Targets",
+    "Quantity": "Quantity",
+    "Values": "gp/unit",
+    "Sell": "Sell",
+    "TokenLoot": "Token Loot"
   },
   "Looting.Errors": {
     "noSelect": "Select a token",
@@ -44,6 +55,8 @@
     "fastGpConvertHint": "Adjusting the value of the item for quick sale during the looting",
     "convertBroken": "Convert broken items",
     "convertBrokenHint": "Way to loot broken items",
+    "imageLoot": "Loot image",
+    "imageLootHint": "image that will be used in the loot token",
     "brokenType": {
       "0": "Ignore",
       "1": "Convert to loot",

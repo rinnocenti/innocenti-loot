@@ -8,21 +8,14 @@
     padding: 0;
 }
 
-    .innocenti-loot .target-list .item {
-        align-items: center;
-        padding: 0 2px;
-        border-bottom: 1px solid #c9c7b8;
-    }
+.innocenti-loot .target-list .item {
+    align-items: center;
+    padding: 0 2px;
+    border-bottom: 1px solid #c9c7b8;
+}
 
-    .innocenti-loot .target-list li {
-        float: left;
-    }
-
-.innocenti-loot .sheet .items-list .item-name h3,
-.innocenti-loot .sheet .items-list .item-name h4 {
-    margin: 0;
-    white-space: nowrap;
-    overflow-x: hidden;
+.innocenti-loot .target-list li {
+    float: left;
 }
 
 .innocenti-loot .target-list .item .item-image {
@@ -35,12 +28,7 @@
     background-position: center;
     border: none;
     margin-right: 5px;
-    text-align: center;
-}
-
-.window-content .innocenti-loot .target-list .item .item-image {
-    flex: 0 0 42px;
-    width: 42px;
+    text-align: left;
 }
 .message-content .items-list,
 .innocenti-loot .sheet .items-list {
@@ -49,25 +37,43 @@
     padding: 0;
     overflow-y: auto;
     scrollbar-width: thin;
-    color: #7a7971;
-}
-.message-content .items-list .item-list,
-.innocenti-loot .sheet .items-list .item-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-.message-content .items-list .item-name,
-.innocenti-loot .sheet .items-list .item-name {
-    flex: 1;
-    margin: 0;
-    overflow: hidden;
-    font-size: 13px;
-    text-align: left;
-    align-items: center;
+    color: #7a7971;    
 }
 
+/*Titulo*/
+    .message-content .items-list .items-header .item-name,
+    .innocenti-loot .sheet .items-list .items-header .item-name {
+        margin: 0;
+        overflow: hidden;
+        text-align: left;
+        align-items: safe center;
+        color: #4b4a44;
+    }
+    /*Entorno das listas*/
+    .message-content .items-list .item-list,
+    .innocenti-loot .sheet .items-list .item-list {
+        margin: 0;
+        padding: 0;
+        font-size: 13px;
+        white-space: inherit;
 
+    }
+
+    .innocenti-loot .sheet .items-list .item .itemloot-name {
+       /* border: 5px solid red;*/
+        flex: 2;
+    }
+    .innocenti-loot .sheet .items-list .item .itemloot-price {
+        text-align: right;
+        justify-content: flex-end;
+        white-space: inherit;
+        margin: 0;
+        padding: 0;
+        /*border: 5px solid red;*/
+    }
+    /*
+    Valores de currency
+*/
     .innocenti-loot .sheet .items-list .item-name h4,
     .innocenti-loot .sheet .items-list .item-name h3 {
         flex: 1;
@@ -75,41 +81,16 @@
         white-space: nowrap;
         overflow-x: hidden;
         text-align: left;
-        color: red;
+        color: dimgrey;
     }
 
-    .message-content .items-list .item-row .item-name h3,
-    .message-content .items-list .item-row .item-name h4 {
-        margin: 0;
-        white-space: nowrap;
-        overflow-x: hidden;
-        text-align: center;
-        color: blue;
-    }
-    .message-content .items-list .item-row .item-name h3 {
-        flex: 2;
-        color: green;
-    }
+    
+    
     .innocenti-loot .sheet .items-list .item-controls {
-        flex: 0 0 60px;
+        flex: 1;
         justify-content: flex-end;
     }
 
-.innocenti-loot .sheet.actor .items-list .item-controls {
-    flex: 0 0 90px;
-    justify-content: flex-end;
-}
-
-
-.innocenti-loot .sheet .items-list .item-controls a {
-    font-size: 12px;
-    text-align: center;
-    flex: 1;
-}
-.message-content .items-list .item-controls a.selected,
-.innocenti-loot .sheet .items-list .item-controls a.selected {
-    text-shadow: 0 0 8px red;
-}
 
 .message-content .items-list .item,
 .innocenti-loot .sheet .items-list .item {
@@ -123,9 +104,9 @@
     border-bottom: none;
 }
 
-.message-content .items-list .item .item-name,
-.innocenti-loot .sheet .items-list .item .item-name {
-    color: red;
+.innocenti-loot .sheet .items-list .item .item-controls {
+    flex: 1;
+    justify-content: flex-end;
 }
 .message-content .items-list .item .item-name .item-image,
 .innocenti-loot .sheet .items-list .item .item-name .item-image {
@@ -176,6 +157,16 @@
         min-width: 40px;
     }
 /*---------------------------------------Chat card styles-------------------------------*/
+    .message-content .items-list .item-row .item-name s.h3
+    .message-content .items-list .item-row .item-name h3,
+    .message-content .items-list .item-row .item-name h4 {
+        margin: 0;
+        white-space: nowrap;
+        overflow-x: hidden;
+        text-align: center;
+        align-content: center;
+        color: dimgray;
+    }
 .innocenti-loot.chat-card {
     font-style: normal;
     font-size: 12px;

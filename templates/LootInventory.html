@@ -1,17 +1,17 @@
 <div class="innocenti-loot flexcol">
-    <div class="dialog-content">
+    <h4 class="dialog-content">
         <form style="height:100%;">
             <div class="form-group">
-                <label for="giveloot">Enviar loot para</label>
+                <label for="giveloot">{{localize 'Looting.MsgChat.SendLoot'}}</label>
                 <select id="giveloot" name="giveloot">
                     {{selectOptions giveLootOptions selected=giveloot localize=true}}
                 </select>
             </div>
             <div class="form-group">
-                <label for="giveloot">Nome do Ator</label>
+                <label for="giveloot">{{localize 'Looting.MsgChat.NameLoot'}}</label>
                 <input type="text" id="lootName" value="{{lootName}}" />
             </div>
-            <h2>Alvos</h2>
+            <h2>{{localize 'Looting.MsgChat.Targets'}}</h2>
             <div class="form-group">
                 <ol class="target-list">
                     {{#each targets}}
@@ -28,43 +28,30 @@
             <div class="form-group sheet">
                 <ol class="items-list">
                     <li class="items-header flexrow">
-                        <h3 class="item-name flexrow">cp</h3>
-                        <h3 class="item-name flexrow">sp</h3>
-                        <h3 class="item-name flexrow">gp</h3>
-                        <h3 class="item-name flexrow">ep</h3>
-                        <h3 class="item-name flexrow">pp</h3>
+                        {{#each currencys}}
+                        <h3 class="item-name flexrow">{{this}}</h3>
+                        {{/each}}
                     </li>
                     <ol class="item-list">
                         <li class="item flexrow">
+                            {{#each currency}}
                             <div class="item-name">
-                                <h4>{{currency.cp}}</h4>
+                                <h4>{{this}}</h4>
                             </div>
-                            <div class="item-name">
-                                <h4>{{currency.sp}}</h4>
-                            </div>
-                            <div class="item-name">
-                                <h4>{{currency.gp}}</h4>
-                            </div>
-                            <div class="item-name">
-                                <h4>{{currency.ep}}</h4>
-                            </div>
-                            <div class="item-name">
-                                <h4>{{currency.pp}}</h4>
-                            </div>
+                            {{/each}}
                         </li>
                     </ol>
                 </ol>
             </div>
-            <div class="form-group sheet">
+            <h3 class="form-group sheet">
                 <ol class="items-list">
                     <li class="items-header flexrow">
-                        <h3 class="item-name flexrow">item</h3>
+                        <h3 class="item-name flexrow">{{localize 'Looting.MsgChat.Loot'}}</h3>
                         <h3 class="item-name flexrow"></h3>
-                        <h3 class="item-name flexrow">quantity</h3>
-                        <h3 class="item-name flexrow">gp (und.)</h3>
-                        <div class="item-controls flexrow">
-                            <h3 class="item-name flexrow">Sell<input type="checkbox" id="select-all" name="select-all"></h3>
-</div>
+                        <h3 class="item-name flexrow">{{localize 'Looting.MsgChat.Quantity'}}</h3>
+                        <h3 class="item-name flexrow">{{localize 'Looting.MsgChat.Values'}}</h3>
+                        <h3 class="item-name flexrow">{{localize 'Looting.MsgChat.Sell'}}<input type="checkbox" id="select-all" name="select-all"></h3>
+
                     </li>
 
                     <ol class="item-list">
@@ -75,10 +62,9 @@
                                     <video width="30" height="30"><source src="{{this.data.img}}" /></video>
                                 </div>
                             </div>
-                            <div><h4>{{this.data.name}}</h4></div>
-                            <div>{{this.data.data.quantity}}</div>
-                            <div>{{this.data.data.price}}</div>
-
+                            <h4 class="itemloot-name flexrow">{{this.data.name}}</h4>
+                            <h4 class="flexrow">{{this.data.data.quantity}}</h4>
+                            <h4 class="itemloot-price flexrow">{{this.data.data.price}} gp</h4>
                             <div class="item-controls flexrow change-box">
                                 <input type="checkbox" id="changegp" name="changegp" value="{{this.name}}">
                             </div>
@@ -86,13 +72,13 @@
                         {{/each}}
                     </ol>
                 </ol>
-            </div>
+</div>
         </form>
     </div>
-    <div class="dialog-buttons flexrow">
-        <button class="dialog-buttons lootall" data-button="lootall">Loot All</button>
-        {{#if this.lootsheet}}
-        <button class="dialog-buttons lootcreate" data-button="lootcreate">Create Loot</button>
-        {{/if}}
-    </div>
+<div class="dialog-buttons flexrow">
+    <button class="dialog-buttons lootall" data-button="lootall">Loot All</button>
+    {{#if this.lootsheet}}
+    <button class="dialog-buttons lootcreate" data-button="lootcreate">Create Loot</button>
+    {{/if}}
+</div>
 </div>

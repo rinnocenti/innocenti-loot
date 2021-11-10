@@ -1,4 +1,4 @@
-import { setting, moduleName, LOOTED } from '../innocenti-loot.js';
+import { setting, moduleName, i18n } from '../innocenti-loot.js';
 import { SumProp, unionSet, FormatCurrency, resetObject } from '../scripts/MenageItems.js';
 import { GMActions } from '../scripts/gmactions.js';
 export class InnLootApp extends Application {
@@ -7,17 +7,18 @@ export class InnLootApp extends Application {
         let listChar = game.users.filter(chara => chara.character).map(actor => [actor.character.uuid, actor.character.name]);
         this.lootSheet5e = game.modules.get("lootsheetnpc5e")?.active
         this.giveLootOptions = Object.fromEntries(listChar);
-        this.targetActor = options.loot;
-        this.lootName = "Treasure"
+        let sceneName = game.scenes.active.data.navName ?? game.scenes.active.data.name;
+        this.lootName = sceneName + " " + i18n('Looting.MsgChat.Treasure');
         this.loots = options.loot;
         var allcurr = options.loot.map(item => item.currency);
         this.currency = SumProp(allcurr);
     }
 
     static get defaultOptions() {
+
         return mergeObject(super.defaultOptions, {
             id: "inventoryloot",
-            title: "Meus Loots",
+            title: game.i18n.localize("Looting.MsgChat.titleLoot"),
             template: "./modules/innocenti-loot/templates/LootInventory.html",
             width: 400,
             height: 400,
@@ -25,6 +26,7 @@ export class InnLootApp extends Application {
         });
     }
     async getData(options) {
+        this.targets = this.loots.map(item => item.token);
         let uniqueList = unionSet(this.loots.map(item => item.items));
         let invnt = new LootInventary();
         uniqueList = await invnt.DamageItems(uniqueList);
@@ -34,12 +36,13 @@ export class InnLootApp extends Application {
         this.data.currency = this.currency;
         return {
             lootName: this.lootName,
-            targets: this.targetActor,
+            targets: this.loots,
             giveLootOptions: this.giveLootOptions,
             giveloot: _token.actor.uuid,
             loots: this.data.loots,
             currency: this.currency,
-            lootsheet: this.lootSheet5e
+            lootsheet: this.lootSheet5e,
+            currencys: Object.keys(game.dnd5e.config.currencies)
         };
     }
 
@@ -73,15 +76,14 @@ export class InnLootApp extends Application {
     }
 
     async CreateLoot() {
-        if (setting('debug')) console.log("LOOOTS", this.data);
+        if (setting('debug')) console.log("LOOOTS", this);
         this.allChecks = this.getCheckbox();
         let lootName = $('#lootName').val();
 
         let wallet = resetObject(duplicate(_token.actor.data.data.currency))
         let currency = await this.ConvertItem2Money(wallet);
         let aitems = await this.PrepareItens();
-
-        let dataAction = { action: "createLoot", lootName: lootName, currency: currency, items: aitems, x: _token.x, y: _token.y }
+        let dataAction = { action: "createLoot", lootName: lootName, currency: currency, items: aitems, targets: this.targets, x: _token.x, y: _token.y }
         if (game.user.isGM) {
             let gmaction = new GMActions(dataAction);
             await gmaction.CreateLoot();
@@ -89,9 +91,20 @@ export class InnLootApp extends Application {
             game.socket.emit(`module.${moduleName}`, dataAction);
         }
 
-        this.targetActor.forEach(token => {
-            if (!setting('debug')) token.document.setFlag(moduleName, LOOTED, true);
-        });
+        //Change Strings Chat
+        let requestdata = {
+            items: this.data.loots,
+            giveloot: this.lootName,
+            currency: this.data.currency,
+            lootfoot: i18n('Looting.MsgChat.TokenLoot')
+        };
+        //Chat template
+        const html = await renderTemplate("./modules/innocenti-loot/templates/LootAllChat.html", requestdata);
+        let chatData = {
+            speaker: ChatMessage.getSpeaker(),
+            content: html
+        };
+        ChatMessage.create(chatData, {});
         this.close();
     }
     async LootAll() {
@@ -114,7 +127,7 @@ export class InnLootApp extends Application {
 
         //Change Strings Chat
         let requestdata = {
-            lootName: this.lootName,
+            lootfoot: this.lootName,
             items: this.data.loots,
             giveloot: actors.name,
             currency: this.data.currency
@@ -126,9 +139,6 @@ export class InnLootApp extends Application {
             content: html
         };
         ChatMessage.create(chatData, {});
-        this.targetActor.forEach(token => {
-            if (!setting('debug')) token.document.setFlag(moduleName, LOOTED, true);
-        })
         this.close();
     }
 
@@ -226,7 +236,7 @@ export class LootInventary {
                                     }
                                 }
 
-                                let nitem = item.clone({ name: item.name + " (Damage)", 'data.price': price, 'data.quantity': 1, 'data.equipped': false, 'data.damage.parts': nDamage }, { keepId: true });
+                                let nitem = item.clone({ name: item.name + ` (${i18n('Looting.MsgChat.Damage')})`, 'data.price': price, 'data.quantity': 1, 'data.equipped': false, 'data.damage.parts': nDamage }, { keepId: true });
                                 checkUni.push(nitem);
                             }
                         }
@@ -236,7 +246,7 @@ export class LootInventary {
                             let price = item.data.data.price * setting('brokenReducePrice');
                             price = Math.round((price + Number.EPSILON) * 100) / 100;
                             let itemType = (setting('convertBroken') != 2) ? item.type : 'loot';
-                            let nitem = item.clone({ name: item.name + " (Broken)", 'data.price': price, 'data.quantity': 1, 'data.equipped': false, 'flags.innocenti-loot.isBroken': true, type: itemType }, { keepId: true });
+                            let nitem = item.clone({ name: item.name + ` (${i18n('Looting.MsgChat.Broken')})`, 'data.price': price, 'data.quantity': 1, 'data.equipped': false, 'flags.innocenti-loot.isBroken': true, type: itemType }, { keepId: true });
                             checkUni.push(nitem);
                         }
                     }
