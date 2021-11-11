@@ -27,6 +27,8 @@ export class InnLootApp extends Application {
     }
     async getData(options) {
         this.targets = this.loots.map(item => item.token);
+        this.elevation = this.loots.map(item => item.elevation);
+
         let uniqueList = unionSet(this.loots.map(item => item.items));
         let invnt = new LootInventary();
         uniqueList = await invnt.DamageItems(uniqueList);
@@ -42,7 +44,6 @@ export class InnLootApp extends Application {
             loots: this.data.loots,
             currency: this.currency,
             lootsheet: this.lootSheet5e,
-            currencys: Object.keys(game.dnd5e.config.currencies)
         };
     }
 
@@ -79,11 +80,10 @@ export class InnLootApp extends Application {
         if (setting('debug')) console.log("LOOOTS", this);
         this.allChecks = this.getCheckbox();
         let lootName = $('#lootName').val();
-
         let wallet = resetObject(duplicate(_token.actor.data.data.currency))
         let currency = await this.ConvertItem2Money(wallet);
         let aitems = await this.PrepareItens();
-        let dataAction = { action: "createLoot", lootName: lootName, currency: currency, items: aitems, targets: this.targets, x: _token.x, y: _token.y }
+        let dataAction = { action: "createLoot", lootName: lootName, currency: currency, items: aitems, targets: this.targets, x: _token.x, y: _token.y, elevation: this.elevation }
         if (game.user.isGM) {
             let gmaction = new GMActions(dataAction);
             await gmaction.CreateLoot();

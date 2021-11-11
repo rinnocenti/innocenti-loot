@@ -1,6 +1,5 @@
 import { registerSettings } from "./settings.js";
 import { ActionLoot } from './scripts/ActionLoot.js';
-import { InnLootApp } from './apps/InnLootApp.js';
 import { GMActions } from './scripts/gmactions.js';
 export const LOOTED = 'Looted';
 export let debug = (...args) => {

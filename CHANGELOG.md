@@ -1,3 +1,7 @@
+#v 0.2.1
+* Finalization of Combat loots.
+* Compatibility with Levels.
+
 #v.0.1.2
 
 Initial release.

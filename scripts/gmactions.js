@@ -34,8 +34,7 @@ export class GMActions {
         });
         await actors.update({ "data.currency": this.data.currency, permission: permissions });
         await actors.createEmbeddedDocuments("Item", this.data.items, { noHook: true });
-
-        canvas.scene.createEmbeddedDocuments("Token", [{ name: this.data.lootName, img: "icons/svg/chest.svg", actorId: actors._id, x: this.data.x, y: this.data.y }]);
+        canvas.scene.createEmbeddedDocuments("Token", [{ name: this.data.lootName, img: setting('imageLoot'), actorId: actors._id, x: this.data.x, y: this.data.y, elevation: this.data.elevation }]);
         if (!setting('debug')) canvas.tokens.deleteMany(this.data.targets);
 
         if (setting('debug')) console.log("Fim da chamada", this.data);
