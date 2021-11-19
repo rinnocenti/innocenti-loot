@@ -68,9 +68,9 @@ export class InnLootApp extends Application {
     async PrepareItens() {
         let aitems = false;
         if (setting('convertBroken') == 0) {
-            aitems = this.data.loots.filter(x => !x.data.flags[`${moduleName}`].convertGp && !x.data.flags[`${moduleName}`].isBroken).map(i => i.toObject());
+            aitems = this.data.loots.filter(x => !x.data.flags[`${moduleName}`]?.convertGp && !x.data.flags[`${moduleName}`]?.isBroken).map(i => i.toObject());
         } else {
-            aitems = this.data.loots.filter(x => !x.data.flags[`${moduleName}`].convertGp).map(i => i.toObject());
+            aitems = this.data.loots.filter(x => !x.data.flags[`${moduleName}`]?.convertGp).map(i => i.toObject());
         }
         if (setting('debug')) console.log("ALL LOOT", aitems);
         return aitems;
