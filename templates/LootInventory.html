@@ -15,10 +15,10 @@
             <div class="form-group">
                 <ol class="target-list">
                     {{#each targets}}
-                    <li class="item flex-row{{#if this.disabled}} disabled{{/if}}" data-item-id="{{this.actor.id}}" draggable="true">
+                    <li class="item flex-row{{#if this.disabled}} disabled{{/if}}" data-actor-id="{{this.actor.id}}" draggable="true">
                         <div class="item-name flexcrow rollable">
-                            <div class="item-image" style="background-image: url('{{this.actor.data.img}}')" title="{{this.actor.name}}">
-                                <video width="30" height="30"><source src="{{this.actor.data.img}}" /></video>
+                            <div class="item-image" style="background-image: url('{{this.token.img}}')" title="{{this.name}}">
+                                <video width="30" height="30"><source src="{{this.token.img}}" /></video>
                             </div>
                         </div>
                     </li>

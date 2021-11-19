@@ -7,7 +7,7 @@ export class InnLootApp extends Application {
         let listChar = game.users.filter(chara => chara.character).map(actor => [actor.character.uuid, actor.character.name]);
         this.lootSheet5e = game.modules.get("lootsheetnpc5e")?.active
         this.giveLootOptions = Object.fromEntries(listChar);
-        let sceneName = game.scenes.active.data.navName ?? game.scenes.active.data.name;
+        let sceneName = (game.scenes.active.data.navName != '') ? game.scenes.active.data.navName:game.scenes.active.data.name;
         this.lootName = sceneName + " " + i18n('Looting.MsgChat.Treasure');
         this.loots = options.loot;
         var allcurr = options.loot.map(item => item.currency);
@@ -28,7 +28,6 @@ export class InnLootApp extends Application {
     async getData(options) {
         this.targets = this.loots.map(item => item.token);
         this.elevation = this.loots.map(item => item.elevation);
-
         let uniqueList = unionSet(this.loots.map(item => item.items));
         let invnt = new LootInventary();
         uniqueList = await invnt.DamageItems(uniqueList);
@@ -50,7 +49,7 @@ export class InnLootApp extends Application {
     async ConvertItem2Money(actorCurrency) {
         let sale = 0;
         this.data.loots.map(item => {
-            if (this.allChecks.includes(item.name) || (setting('convertBroken') == 2 && item.data.flags[`${moduleName}`].isBroken)) {
+            if (this.allChecks.includes(item.name) || (setting('convertBroken') == 2 && item.data.flags[`${moduleName}`]?.isBroken)) {
                 let coingp = (item.data.data.quantity * item.data.data.price) * setting('fastGpConvert');
                 item.data.flags[`${moduleName}`] = { convertGp: coingp.toFixed(2) }
                 sale += coingp;

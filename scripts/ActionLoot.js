@@ -53,7 +53,7 @@ export class ActionLoot {
 
             items = await this.ConvertLoots(items, this.currencys);
             this.data[`${action}`].push({
-                token: entity.id, actor: entity.actor, elevation: entity.data.elevation, items: items, currency: this.currency
+                token: { id: entity.id, img: entity.data.img }, actor: entity.actor, elevation: entity.data.elevation, items: items, currency: this.currency
             });
         }
     }

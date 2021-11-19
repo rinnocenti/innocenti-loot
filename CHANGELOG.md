@@ -1,3 +1,10 @@
+#v 0.2.3
+* Fiz for name treasures.
+* Fix for image tokens targets
+
+#v 0.2.2
+Update compatibility with permissions
+
 #v 0.2.1
 * Finalization of Combat loots.
 * Compatibility with Levels.
