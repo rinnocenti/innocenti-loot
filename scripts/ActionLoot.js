@@ -97,6 +97,8 @@ export class ActionLoot {
             if (entity.document.getFlag(moduleName, LOOTED)) {
                 ui.notifications.warn(game.i18n.format("Looting.Errors.invalidCheck", { token: entity.name })); continue;
             }
+            if (!setting('debug'))
+                entity.document.setFlag(moduleName, LOOTED, true);
             //If the token has currencys, duplicate its properties
             this.currency = duplicate(entity.actor.data.data?.currency);
             // Filters the target's inventory with only looted items

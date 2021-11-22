@@ -1,3 +1,6 @@
+#v 0.2.32
+* fixed more than one player looting at the same time
+
 #v 0.2.31
 
 * code cleaning
