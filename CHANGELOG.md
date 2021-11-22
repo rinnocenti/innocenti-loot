@@ -1,3 +1,16 @@
+#v 0.2.31
+
+* code cleaning
+* API for lootsheet for convert items-coins and items-table to currency: 
+
+`/* Convert all table itens and currency itens, inclusive rolltable ones */
+let loot = new InnocentiLoot.Loot()
+loot.ConvertLoots(ArrayItems, ArraySystemCurrency)`
+
+`/* Convert only one item-coins to currencys. */
+let loot = new InnocentiLoot.Loot()
+loot.ConvertLoots(ObjItem, ArraySystemCurrency)`
+
 #v 0.2.3
 * Fiz for name treasures.
 * Fix for image tokens targets

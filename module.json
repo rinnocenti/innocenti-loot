@@ -2,7 +2,7 @@
   "name": "innocenti-loot",
   "title": "Innocenti's Loot",
   "description": "Modules for loot from monsters and Npcs",
-  "version": "0.2.3",
+  "version": "0.2.31",
   "minimumCoreVersion": "0.8.0",
   "compatibleCoreVersion": "0.8.9",
   "author": "Renato innocenti",
