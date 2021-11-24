@@ -1,3 +1,6 @@
+#v 0.2.33
+* fixed elevation for loots
+
 #v 0.2.32
 * fixed more than one player looting at the same time
 

@@ -27,7 +27,7 @@ export class InnLootApp extends Application {
     }
     async getData(options) {
         this.targets = this.loots.map(item => item.token);
-        this.elevation = this.loots.map(item => Math.round(item.elevation));
+        this.elevation = this.loots.map(item => item.elevation);
         let uniqueList = unionSet(this.loots.map(item => item.items));
         let invnt = new LootInventary();
         uniqueList = await invnt.DamageItems(uniqueList);
