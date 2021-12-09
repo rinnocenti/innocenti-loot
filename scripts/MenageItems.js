@@ -33,6 +33,11 @@ export let FormatCurrency = (price, system = 'dnd5e') => {
         return { cp: cp, sp: sp, gp: gp , ep:0, pp:0}
     }  
 }
+export let ModelCurrencys = (system) => {
+    if (system == 'dnd5e') {
+        return game.dnd5e.config.currencies
+    }
+}
 
 export let resetObject = function (spy) {
     Object.keys(spy).forEach(function (key) { spy[key] = 0 });

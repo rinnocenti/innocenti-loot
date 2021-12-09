@@ -1,5 +1,5 @@
 import { setting, moduleName, i18n } from '../innocenti-loot.js';
-import { SumProp, unionSet, FormatCurrency, resetObject } from '../scripts/MenageItems.js';
+import { SumProp, unionSet, FormatCurrency, resetObject, ModelCurrencys } from '../scripts/MenageItems.js';
 import { GMActions } from '../scripts/gmactions.js';
 export class InnLootApp extends Application {
     constructor(entity, options = {}) {
@@ -43,6 +43,7 @@ export class InnLootApp extends Application {
             loots: this.data.loots,
             currency: this.currency,
             lootsheet: this.lootSheet5e,
+            currencys: ModelCurrencys(game.system.id)
         };
     }
 
@@ -226,7 +227,7 @@ export class LootInventary {
                             if (isDamaged) {
                                 damages++;
                                 let price = item.data.data.price * setting('damageReducePrice');
-                                price = Math.round((price + Number.EPSILON) * 100) / 100;
+                                price = Math.floor((price + Number.EPSILON) * 100) / 100;
                                 let rDamage = item.data.data?.damage?.parts;
                                 let nDamage = [];
                                 if (rDamage.length > 0) {
@@ -243,7 +244,7 @@ export class LootInventary {
                         if (isBroken) {
                             brokens++;
                             let price = item.data.data.price * setting('brokenReducePrice');
-                            price = Math.round((price + Number.EPSILON) * 100) / 100;
+                            price = Math.floor((price + Number.EPSILON) * 100) / 100;
                             let itemType = (setting('convertBroken') != 2) ? item.type : 'loot';
                             let nitem = item.clone({ name: item.name + ` (${i18n('Looting.MsgChat.Broken')})`, 'data.price': price, 'data.quantity': 1, 'data.equipped': false, 'flags.innocenti-loot.isBroken': true, type: itemType }, { keepId: true });
                             checkUni.push(nitem);
