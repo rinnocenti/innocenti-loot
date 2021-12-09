@@ -1,3 +1,9 @@
+#v 0.2.4
+Fix currency names.
+Fix token actor on create loot.
+fix round down on breaked and damaged items.
+Compatibility from Foundry 8.8+ and v9 
+
 #v 0.2.33
 * fixed elevation for loots
 
