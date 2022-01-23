@@ -1,3 +1,10 @@
+#v 0.2.42
+
+*fix for checkbox error in check all boxs
+#v 0.2.41
+
+* fix for new lootSheet5e
+
 #v 0.2.4
 Fix currency names.
 Fix token actor on create loot.

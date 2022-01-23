@@ -150,11 +150,11 @@ export class InnLootApp extends Application {
         $('#select-all').click(function (event) {
             if (this.checked) {
                 // Iterate each checkbox
-                $(':checkbox').each(function () {
+                $('.innocenti-loot :checkbox').each(function () {
                     this.checked = true;
                 });
             } else {
-                $(':checkbox').each(function () {
+                $('.innocenti-loot :checkbox').each(function () {
                     this.checked = false;
                 });
             }
