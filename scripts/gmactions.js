@@ -23,7 +23,7 @@ export class GMActions {
             name: this.data.lootName,
             type: "npc",
             img: setting('imageLoot'),
-            'flags.core.sheetClass': 'dnd5e.LootSheet5eNPC',
+            'flags.core.sheetClass': 'dnd5e.LootSheetNPC5e',
             'flags.lootsheetnpc5e.lootsheettype': 'Loot'
         });
         let lootingUsers = game.users.contents.filter(user => { return user.role >= 1 && user.role <= 2 });
