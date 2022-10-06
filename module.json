@@ -1,37 +1,41 @@
 {
-  "name": "innocenti-loot",
   "title": "Innocenti's Loot",
   "description": "Modules for loot monsters and Npcs",
-  "version": "0.2.42",
-  "minimumCoreVersion": "0.8.8",
-  "compatibleCoreVersion": "9",
-  "author": "Renato innocenti",
+  "version": "0.2.43",
   "authors": [
     {
       "name": "Innocenti",
       "discord": "Innocenti#1455",
-      "email": "renato.innocenti@gmail.com"
+      "email": "renato.innocenti@gmail.com",
+      "flags": {}
     }
   ],
-  "systems": [ "dnd5e" ],
-  "esmodules": [ "innocenti-loot.js", "settings.js", "apps/InnLootApp.js" ],
-  "dependencies": [],
-  "styles": [ "css/inventory.css" ],
+  "esmodules": [
+    "innocenti-loot.js",
+    "settings.js",
+    "apps/InnLootApp.js"
+  ],
+  "styles": [
+    "css/inventory.css"
+  ],
   "languages": [
     {
       "lang": "pt-BR",
-      "name": "Português (Brasil)",
-      "path": "lang/pt-BR.json"
+      "name": "Portuguï¿½s (Brasil)",
+      "path": "lang/pt-BR.json",
+      "flags": {}
     },
     {
       "lang": "en",
       "name": "English",
-      "path": "lang/en.json"
+      "path": "lang/en.json",
+      "flags": {}
     },
     {
       "lang": "fr",
       "name": "French (France)",
-      "path": "lang/fr.json"
+      "path": "lang/fr.json",
+      "flags": {}
     }
   ],
   "packs": [
@@ -39,42 +43,51 @@
       "name": "looting-macros",
       "label": "Macro Looting",
       "path": "packs/looting-macro.db",
-      "module": "innocenti-loot",
-      "entity": "Macro"
+      "type": "Macro",
+      "system": "dnd5e",
+      "private": false,
+      "flags": {}
     },
     {
       "name": "looting-items",
       "label": "Looting Items Currency",
       "path": "packs/item-currency.db",
-      "module": "innocenti-loot",
-      "entity": "Item"
+      "type": "Item",
+      "private": false,
+      "system": "dnd5e",
+      "flags": {}
     }
   ],
   "media": [
     {
       "type": "cover",
-      "link": "https://github.com/rinnocenti/innocenti-loot/raw/main/img/cover.jpg"
+      "loop": false,
+      "flags": {}
     },
     {
       "type": "video",
-      "link": "https://www.youtube.com/watch?v=v6JPQ9MWi4U",
-      "loop": false
+      "loop": false,
+      "flags": {}
     },
     {
       "type": "screenshot",
-      "link": "https://github.com/rinnocenti/innocenti-loot/raw/main/img/item-coin.png"
+      "loop": false,
+      "flags": {}
     },
     {
       "type": "screenshot",
-      "link": "https://github.com/rinnocenti/innocenti-loot/raw/main/imgs/readme04.png"
+      "loop": false,
+      "flags": {}
     },
     {
       "type": "screenshot",
-      "link": "https://github.com/rinnocenti/innocenti-loot/raw/main/imgs/readme02.png"
+      "loop": false,
+      "flags": {}
     },
     {
       "type": "screenshot",
-      "link": "https://github.com/rinnocenti/innocenti-loot/raw/main/imgs/readme03.png"
+      "loop": false,
+      "flags": {}
     }
   ],
   "socket": true,
@@ -82,5 +95,19 @@
   "manifest": "https://raw.githubusercontent.com/rinnocenti/innocenti-loot/master/module.json",
   "download": "https://github.com/rinnocenti/innocenti-loot/archive/refs/heads/master.zip",
   "bugs": "https://github.com/rinnocenti/innocenti-loot/issues",
-  "readme": "https://github.com/rinnocenti/innocenti-loot/blob/master/README.md"
+  "readme": "https://github.com/rinnocenti/innocenti-loot/blob/master/README.md",
+  "id": "innocenti-loot",
+  "relationships": {
+    "systems": [
+      {
+        "id": "dnd5e",
+        "type": "system",
+        "compatibility": {}
+      }
+    ]
+  },
+  "compatibility": {
+    "minimum": "9",
+    "verified": "10.286"
+  }
 }

@@ -43,3 +43,7 @@ export let resetObject = function (spy) {
     Object.keys(spy).forEach(function (key) { spy[key] = 0 });
     return spy;
 }
+
+export let foundryVersion = function () {
+    return parseFloat(game.version);
+}

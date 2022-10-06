@@ -1,6 +1,6 @@
 import { i18n, setting, log, moduleName, LOOTED } from '../innocenti-loot.js';
 import { InnLootApp } from '../apps/InnLootApp.js';
-import { SumObjectsByKey } from '../scripts/MenageItems.js';
+import { SumObjectsByKey, foundryVersion } from '../scripts/MenageItems.js';
 /**
  * Class to prepare target objects for loot
  * */
@@ -99,8 +99,10 @@ export class ActionLoot {
             }
             if (!setting('debug'))
                 entity.document.setFlag(moduleName, LOOTED, true);
+
+            let actorData = (foundryVersion >= 10) ? entity.actor.system : entity.actor.data.data;
             //If the token has currencys, duplicate its properties
-            this.currency = duplicate(entity.actor.data.data?.currency);
+            this.currency = duplicate(actorData?.currency);
             // Filters the target's inventory with only looted items
             let items = await this.FilterInventory(entity.actor.items);
             if (items.length <= 0 && Object.values(this.currency).every(item => item <= 0)) continue;
@@ -108,12 +110,12 @@ export class ActionLoot {
             let type = entity.actor.type
             if (this.modules['lootsheetnpc5e'])
                 type = entity.actor.getFlag('lootsheetnpc5e', 'lootsheettype');
-            let action = (entity.actor.data.data.attributes.hp.value <= 0 || type == 'loot') ? 'loot' : 'pickpocket';
+            let action = (actorData.attributes.hp.value <= 0 || type == 'loot') ? 'loot' : 'pickpocket';
             //reshapes the inventory list looking for special items such as currancys-type items or table-type items.
             items = await this.ConvertLoots(items, this.currencys);
             //creates a data list with the final results for loot creation.
             this.data[`${action}`].push({
-                token: { id: entity.id, img: entity.data.img }, actor: entity.actor, elevation: entity.data.elevation, items: items, currency: this.currency
+                token: { id: entity.id, img: entity.document.texture.src }, actor: entity.actor, elevation: entity.document.elevation, items: items, currency: this.currency
             });
         }
     }
@@ -152,8 +154,9 @@ export class ActionLoot {
         return await items.filter(item => {
             if (item == null || item == undefined) return;
             if (item.type == "class" || item.type == "spell" || item.type == "feat") return;
-            if (item.type === "weapon" && (item.data.data.weaponType == "siege" || item.data.data.weaponType == "natural")) return;
-            if (item.type === "equipment" && (item.data.data.equipmentType == "vehicle" || item.data.data.equipmentType == "natural")) return;
+            let itemData = (foundryVersion >= 10) ? item.system : item.data.data;
+            if (item.type === "weapon" && (itemData.weaponType == "siege" || itemData.weaponType == "natural")) return;
+            if (item.type === "equipment" && (itemData.equipmentType == "vehicle" || itemData.equipmentType == "natural")) return;
             return item;
         });
     }
@@ -187,7 +190,8 @@ export class ActionLoot {
                     let formula = r.data.flags["better-rolltables"]["brt-result-formula"].formula;
                     let roll = new Roll(formula)
                     let total = await roll.evaluate({ async: true });
-                    entity.data.data.quantity = total.total;
+                    let itemData = (foundryVersion >= 10) ? entity.system : entity.data.data;
+                    itemData.quantity = total.total;
                 }
                 let currency = await this.ItemCurrency2Coins(entity, currencys);
                 if (currency == false) {
@@ -210,12 +214,13 @@ export class ActionLoot {
         let currency = {};
         if (matches[1] in currencys) {
             if (!currency[`${matches[1]}`]) currency[`${matches[1]}`] = 0;
-            if (Roll.validate(item.data.data.source)) {
-                let r = new Roll(item.data.data.source);
+            let itemData = (foundryVersion >= 10) ? item.system : item.data.data;
+            if (Roll.validate(itemData.source)) {
+                let r = new Roll(itemData.source);
                 let total = await r.evaluate({ async: true });
                 currency[`${matches[1]}`] += total.total;
             } else {
-                currency[`${matches[1]}`] += item.data.data.quantity;
+                currency[`${matches[1]}`] += itemData.quantity;
             }
             return currency;
         }
