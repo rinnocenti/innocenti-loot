@@ -59,12 +59,12 @@
                         <li class="item flexrow{{#if this.disabled}} disabled{{/if}}" data-item-id="{{this.id}}" draggable="true">
                             <div class="item-name flexrow rollable">
                                 <div class="item-image" style="background-image: url('{{this.data.img}}')">
-                                    <video width="30" height="30"><source src="{{this.data.img}}" /></video>
+                                    <video width="30" height="30"><source src="{{this.img}}" /></video>
                                 </div>
                             </div>
-                            <h4 class="itemloot-name flexrow">{{this.data.name}}</h4>
-                            <h4 class="flexrow">{{this.data.data.quantity}}</h4>
-                            <h4 class="itemloot-price flexrow">{{this.data.data.price}} gp</h4>
+                            <h4 class="itemloot-name flexrow">{{this.name}}</h4>
+                            <h4 class="flexrow">{{this.system.quantity}}</h4>
+                            <h4 class="itemloot-price flexrow">{{this.system.price.value}} {{this.system.price.denomination}}</h4>
                             <div class="item-controls flexrow change-box">
                                 <input type="checkbox" id="changegp" name="changegp" value="{{this.name}}">
                             </div>

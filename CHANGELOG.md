@@ -1,3 +1,10 @@
+#v 0.2.44
+Patch for DND 2.1.5 (not cover all bugs)
+
+This module will no longer be updated, I indicate the monk's token bar as a better and updated replacement.
+
+https://github.com/ironmonk88/monks-tokenbar
+
 #v 0.2.43
 V9 and v10 primary support
 

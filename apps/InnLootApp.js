@@ -52,7 +52,7 @@ export class InnLootApp extends Application {
         this.data.loots.map(item => {
             if (this.allChecks.includes(item.name) || (setting('convertBroken') == 2 && item.data.flags[`${moduleName}`]?.isBroken)) {
                 let itemData = (foundryVersion >= 10) ? item.system : item.data.data;
-                let coingp = (itemData.quantity * itemData.price) * setting('fastGpConvert');
+                let coingp = (itemData.quantity * itemData.price.value) * setting('fastGpConvert');
                 item.data.flags[`${moduleName}`] = { convertGp: coingp.toFixed(2) }
                 sale += coingp;
             }
@@ -239,7 +239,7 @@ export class LootInventary {
                             isDamaged = ((chance - ranChance) > 0 && (chance - ranChance) <= setting('lootDamage'));
                             if (isDamaged) {
                                 damages++;
-                                let price = itemData.price * setting('damageReducePrice');
+                                let price = itemData.price.value * setting('damageReducePrice');
                                 price = Math.floor((price + Number.EPSILON) * 100) / 100;
                                 let rDamage = itemData?.damage?.parts;
                                 let nDamage = [];
@@ -250,9 +250,9 @@ export class LootInventary {
                                 }
                                 let nitem = undefined;
                                 if (foundryVersion >= 10) {
-                                    nitem = item.clone({ name: item.name + ` (${i18n('Looting.MsgChat.Damage')})`, 'system.price': price, 'system.quantity': 1, 'system.equipped': false, 'system.damage.parts': nDamage }, { keepId: true });
+                                    nitem = item.clone({ name: item.name + ` (${i18n('Looting.MsgChat.Damage')})`, 'system.price.value': price, 'system.quantity': 1, 'system.equipped': false, 'system.damage.parts': nDamage }, { keepId: true });
                                 } else {
-                                    nitem = item.clone({ name: item.name + ` (${i18n('Looting.MsgChat.Damage')})`, 'data.price': price, 'data.quantity': 1, 'data.equipped': false, 'data.damage.parts': nDamage }, { keepId: true });
+                                    nitem = item.clone({ name: item.name + ` (${i18n('Looting.MsgChat.Damage')})`, 'data.price.value': price, 'data.quantity': 1, 'data.equipped': false, 'data.damage.parts': nDamage }, { keepId: true });
                                 }
                                 checkUni.push(nitem);
                             }
@@ -260,14 +260,14 @@ export class LootInventary {
                         let isBroken = (ranChance <= chance && !isDamaged);
                         if (isBroken) {
                             brokens++;
-                            let price = itemData.price * setting('brokenReducePrice');
+                            let price = itemData.price.value * setting('brokenReducePrice');
                             price = Math.floor((price + Number.EPSILON) * 100) / 100;
                             let itemType = (setting('convertBroken') != 2) ? item.type : 'loot';
                             let nitem = undefined;
                             if (foundryVersion >= 10) {
-                                nitem = item.clone({ name: item.name + ` (${i18n('Looting.MsgChat.Broken')})`, 'system.price': price, 'system.quantity': 1, 'system.equipped': false, 'flags.innocenti-loot.isBroken': true, type: itemType }, { keepId: true });
+                                nitem = item.clone({ name: item.name + ` (${i18n('Looting.MsgChat.Broken')})`, 'system.price.value': price, 'system.quantity': 1, 'system.equipped': false, 'flags.innocenti-loot.isBroken': true, type: itemType }, { keepId: true });
                             } else {
-                                nitem = item.clone({ name: item.name + ` (${i18n('Looting.MsgChat.Broken')})`, 'data.price': price, 'data.quantity': 1, 'data.equipped': false, 'flags.innocenti-loot.isBroken': true, type: itemType }, { keepId: true });
+                                nitem = item.clone({ name: item.name + ` (${i18n('Looting.MsgChat.Broken')})`, 'data.price.value': price, 'data.quantity': 1, 'data.equipped': false, 'flags.innocenti-loot.isBroken': true, type: itemType }, { keepId: true });
                             }
                             checkUni.push(nitem);
                         }

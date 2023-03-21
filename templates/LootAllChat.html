@@ -19,11 +19,11 @@
                             <div class="item-name flexrow">
                                 <div class="item-image " style="background-image: url('{{this.data.img}}'); flex: 0 0 30px; ">
                                 </div>
-                                {{#if this.data.flags.innocenti-loot.convertGp}}<s>
+                                {{#if this.flags.innocenti-loot.convertGp}}<s>
                                     {{/if}}
-                                    <h3 class="item-name flexrow">{{this.name}} x{{this.data.data.quantity}}</h3>
-                                    {{#if this.data.flags.innocenti-loot.convertGp}}
-                                </s><h3>{{this.data.flags.innocenti-loot.convertGp}} gp</h3>{{/if}}
+                                    <h3 class="item-name flexrow">{{this.name}} x{{this.system.quantity}}</h3>
+                                    {{#if this.flags.innocenti-loot.convertGp}}
+                                </s><h3>{{this.flags.innocenti-loot.convertGp}} gp</h3>{{/if}}
                             </div>
                         </div>
                     </li>
