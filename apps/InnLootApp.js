@@ -1,17 +1,22 @@
 import { setting, moduleName, i18n } from '../innocenti-loot.js';
-import { SumProp, unionSet, FormatCurrency, resetObject, ModelCurrencys, foundryVersion } from '../scripts/MenageItems.js';
+import { SumProp, unionSet, BaseGPFormat, ConvertCurrancy, resetObject, ModelCurrencys } from '../scripts/MenageItems.js';
 import { GMActions } from '../scripts/gmactions.js';
 export class InnLootApp extends Application {
     constructor(entity, options = {}) {
         super(options);
         let listChar = game.users.filter(chara => chara.character).map(actor => [actor.character.uuid, actor.character.name]);
-        this.lootSheet5e = game.modules.get("lootsheetnpc5e")?.active
+        this.lootSheet5e = game.modules.get("lootsheetnpc5e")?.active;
         this.giveLootOptions = Object.fromEntries(listChar);
-        let sceneName = (game.scenes.active.data.navName != '') ? game.scenes.active.data.navName : game.scenes.active.data.name;
+        let sceneName = (game.scenes.active.navName != '') ? game.scenes.active.navName : game.scenes.active.name;
         this.lootName = sceneName + " " + i18n('Looting.MsgChat.Treasure');
         this.loots = options.loot;
         var allcurr = options.loot.map(item => item.currency);
         this.currency = SumProp(allcurr);
+        this.rollprivate = options.rollprivate;
+        this.preview = options.preview;
+        this.combat = options.combat;
+        this.createLoot = (game.modules.get("lootsheetnpc5e")?.active || game.modules.get("dfreds-pocket-change")?.active)? true:false
+        this.currencys = ModelCurrencys(game.system.id);
     }
 
     static get defaultOptions() {
@@ -26,6 +31,23 @@ export class InnLootApp extends Application {
         });
     }
     async getData(options) {
+        await this.defaultGetData();
+        return {
+            lootName: this.lootName,
+            targets: this.loots,
+            giveLootOptions: this.giveLootOptions,
+            giveloot: _token.actor.uuid,
+            loots: this.data.loots,
+            currency: this.currency,
+            lootsheet: this.lootSheet5e,
+            currencys: ModelCurrencys(game.system.id),
+            rollprivate: this.rollprivate,
+            combat: this.combat,
+            createLoot: this.createLoot
+        };
+    }
+
+    async defaultGetData() {
         this.targets = this.loots.map(item => item.token);
         this.elevation = this.loots.map(item => item.elevation);
         let uniqueList = unionSet(this.loots.map(item => item.items));
@@ -35,31 +57,24 @@ export class InnLootApp extends Application {
         this.data = {};
         this.data.loots = uniqueList;
         this.data.currency = this.currency;
-        return {
-            lootName: this.lootName,
-            targets: this.loots,
-            giveLootOptions: this.giveLootOptions,
-            giveloot: _token.actor.uuid,
-            loots: this.data.loots,
-            currency: this.currency,
-            lootsheet: this.lootSheet5e,
-            currencys: ModelCurrencys(game.system.id)
-        };
     }
 
     async ConvertItem2Money(actorCurrency) {
         let sale = 0;
+        let denomination = 'gp';
         this.data.loots.map(item => {
-            if (this.allChecks.includes(item.name) || (setting('convertBroken') == 2 && item.data.flags[`${moduleName}`]?.isBroken)) {
-                let itemData = (foundryVersion >= 10) ? item.system : item.data.data;
+            if (this.allChecks.includes(item.name) || (setting('convertBroken') == 2 && item.flags[`${moduleName}`]?.isBroken)) {
+                let itemData = item.system;
                 let coingp = (itemData.quantity * itemData.price.value) * setting('fastGpConvert');
-                item.data.flags[`${moduleName}`] = { convertGp: coingp.toFixed(2) }
+                // Correção com o novo sistema de dominação de dnd
+                item.flags[`${moduleName}`] = { convertGp: coingp.toFixed(2), denomination: itemData.price.denomination}
                 sale += coingp;
+                denomination = itemData.price.denomination;
             }
         });
         // Configura o dinheiro
         let currency = duplicate(actorCurrency);
-        let gpSale = FormatCurrency(sale, game.system.id);
+        let gpSale = BaseGPFormat(sale, denomination, game.system.id);
         this.data.currency = SumProp([this.data.currency, gpSale]);
         for (let coin in this.currency) {
             currency[coin] = this.data.currency[coin] + currency[coin];
@@ -69,9 +84,9 @@ export class InnLootApp extends Application {
     async PrepareItens() {
         let aitems = false;
         if (setting('convertBroken') == 0) {
-            aitems = this.data.loots.filter(x => !x.data.flags[`${moduleName}`]?.convertGp && !x.data.flags[`${moduleName}`]?.isBroken).map(i => i.toObject());
+            aitems = this.data.loots.filter(x => !x.flags[`${moduleName}`]?.convertGp && !x.flags[`${moduleName}`]?.isBroken).map(i => i.toObject());
         } else {
-            aitems = this.data.loots.filter(x => !x.data.flags[`${moduleName}`]?.convertGp).map(i => i.toObject());
+            aitems = this.data.loots.filter(x => !x.flags[`${moduleName}`]?.convertGp).map(i => i.toObject());
         }
         if (setting('debug')) console.log("ALL LOOT", aitems);
         return aitems;
@@ -81,10 +96,11 @@ export class InnLootApp extends Application {
         if (setting('debug')) console.log("LOOOTS", this);
         this.allChecks = this.getCheckbox();
         let lootName = $('#lootName').val();
-        let tData = (foundryVersion >= 10) ? _token.actor.system.currency : _token.actor.data.data.currency;
+        let tData = _token.actor.system.currency;
         let wallet = resetObject(duplicate(tData))
         let currency = await this.ConvertItem2Money(wallet);
         let aitems = await this.PrepareItens();
+
         let dataAction = { action: "createLoot", lootName: lootName, currency: currency, items: aitems, targets: this.targets, x: _token.x, y: _token.y, elevation: this.elevation }
         if (game.user.isGM) {
             let gmaction = new GMActions(dataAction);
@@ -106,29 +122,38 @@ export class InnLootApp extends Application {
             speaker: ChatMessage.getSpeaker(),
             content: html
         };
-        ChatMessage.create(chatData, {});
+        if (this.rollprivate) {
+            let whispers = game.users.filter(u => u.isGM == true || u._id == game.user.id).map(x => x._id);
+            chatData['whisper'] = whispers;
+        }
         this.close();
     }
     async LootAll() {
         if (setting('debug')) console.log("LOOOTS", this.data);
-        this.allChecks = this.getCheckbox();
-
-        let giveActor = $('select[name=giveloot] option').filter(':selected').val().split('.');
-        let actors = game.actors.get(giveActor[1]);
-        let actorData = (foundryVersion >= 10) ? actors.system : actors.data.data;
+        let actors = _token.actor;
+        this.allChecks = (this.preview) ? this.getCheckbox() : [];
+        if (this.preview) {
+            let getActor = $('select[name=giveloot] option').filter(':selected').val().split('.');
+            actors = game.actors.get(getActor[1]);
+        } else {
+            await this.defaultGetData();
+        }
+        let actorData = actors.system;
         let currency = await this.ConvertItem2Money(actorData.currency);
         let aitems = await this.PrepareItens();
 
-
         if (game.user.isGM || _token.actor.id == actors.id) {
-            if (foundryVersion >= 10)
-                await actors.update({ "system.currency": currency });
-            else
-                await actors.update({ "data.currency": currency });
+            await actors.update({ "system.currency": currency });
             await actors.createEmbeddedDocuments("Item", aitems, { noHook: true });
+            if (game.user.isGM && !setting('debug')) {
+                let gmaction = new GMActions({ action: "flagTarget", targets: this.targets });
+                await gmaction.FlagTargets();
+            } else {
+                game.socket.emit(`module.${moduleName}`, { action: "flagTarget", targets: this.targets });
+            }
             if (setting('debug')) console.log("LISTA", this);
         } else {
-            game.socket.emit(`module.${moduleName}`, { action: "sendLoot", actor: actors.id, currency: currency, items: aitems });
+            game.socket.emit(`module.${moduleName}`, { action: "sendLoot", actor: actors.id, currency: currency, items: aitems, targets: this.targets });
         }
 
         //Change Strings Chat
@@ -144,8 +169,14 @@ export class InnLootApp extends Application {
             speaker: ChatMessage.getSpeaker(),
             content: html
         };
+        if (this.rollprivate) {
+            let whispers = game.users.filter(u => u.isGM == true || u._id == game.user.id).map(x => x._id);
+            chatData['whisper'] = whispers;
+        }
         ChatMessage.create(chatData, {});
-        this.close();
+
+        if (this.preview) this.close();
+
     }
 
     activateListeners(html) {
@@ -164,6 +195,16 @@ export class InnLootApp extends Application {
                     this.checked = false;
                 });
             }
+        });
+
+        $('input[name=changegp]:checkbox').click(function (event) {
+
+            let clickid = $(this).attr('id');
+            let lootList = that.data.loots;
+            let priceHtml = $('h4.itemloot-price').text();
+            let item = lootList.find(x => x._id == clickid);
+            let nprice = ConvertCurrancy(item.system.price.value, item.system.price.denomination, game.system.id)
+            console.log("Cicou", item, priceHtml, nprice);
         });
 
         $('.dialog-buttons.lootall', html).click($.proxy(this.LootAll, this));
@@ -193,15 +234,15 @@ export class LootInventary {
             if (!notRepat) {
                 checkUni.push(actual);
             } else {
-                let norepData = (foundryVersion >= 10) ? notRepat.system.quantity : notRepat.data.data.quantity;
-                let listData = (foundryVersion >= 10) ? lista[i].system.quantity : lista[i].data.data.quantity;
+                let norepData = notRepat.system.quantity;
+                let listData = lista[i].system.quantity;
                 let quant = norepData + listData;
                 checkUni.map(check => {
                     if (check.name == actual.name) {
-                        let chekData = (foundryVersion >= 10) ? check.system.quantity : check.data.data.quantity;
+                        let chekData = check.system.quantity;
                     }
-                        chekData = quant;
-                    
+                    chekData = quant;
+
                 });
             }
         }
@@ -214,7 +255,7 @@ export class LootInventary {
         let lootEquipeed = setting('lootEquipable');
         let agio = setting('lootEquipableAgil');
         let isDamageble = (item) => {
-            let itemData = (foundryVersion >= 10) ? item.system : item.data.data;
+            let itemData = item.system;
             if (itemData.properties?.mgc == true) return false;
             if (this.itemRaritys.indexOf(itemData.rarity) > setting('rarityBroken')) return false;
             if (damageItem[`${item.type}`] <= 0) return false;
@@ -225,7 +266,7 @@ export class LootInventary {
         lista.forEach(item => {
             let damages = 0;
             let brokens = 0;
-            let itemData = (foundryVersion >= 10) ? item.system : item.data.data;
+            let itemData = item.system;
             let quant = itemData.quantity;
             if (setting('debug')) item.unsetFlag(moduleName, 'isBroken');
             if (isDamageble(item)) {
@@ -249,11 +290,7 @@ export class LootInventary {
                                     }
                                 }
                                 let nitem = undefined;
-                                if (foundryVersion >= 10) {
-                                    nitem = item.clone({ name: item.name + ` (${i18n('Looting.MsgChat.Damage')})`, 'system.price.value': price, 'system.quantity': 1, 'system.equipped': false, 'system.damage.parts': nDamage }, { keepId: true });
-                                } else {
-                                    nitem = item.clone({ name: item.name + ` (${i18n('Looting.MsgChat.Damage')})`, 'data.price.value': price, 'data.quantity': 1, 'data.equipped': false, 'data.damage.parts': nDamage }, { keepId: true });
-                                }
+                                nitem = item.clone({ name: item.name + ` (${i18n('Looting.MsgChat.Damage')})`, 'system.price.value': price, 'system.quantity': 1, 'system.equipped': false, 'system.damage.parts': nDamage }, { keepId: true });
                                 checkUni.push(nitem);
                             }
                         }
@@ -264,11 +301,7 @@ export class LootInventary {
                             price = Math.floor((price + Number.EPSILON) * 100) / 100;
                             let itemType = (setting('convertBroken') != 2) ? item.type : 'loot';
                             let nitem = undefined;
-                            if (foundryVersion >= 10) {
-                                nitem = item.clone({ name: item.name + ` (${i18n('Looting.MsgChat.Broken')})`, 'system.price.value': price, 'system.quantity': 1, 'system.equipped': false, 'flags.innocenti-loot.isBroken': true, type: itemType }, { keepId: true });
-                            } else {
-                                nitem = item.clone({ name: item.name + ` (${i18n('Looting.MsgChat.Broken')})`, 'data.price.value': price, 'data.quantity': 1, 'data.equipped': false, 'flags.innocenti-loot.isBroken': true, type: itemType }, { keepId: true });
-                            }
+                            nitem = item.clone({ name: item.name + ` (${i18n('Looting.MsgChat.Broken')})`, 'system.price.value': price, 'system.quantity': 1, 'system.equipped': false, 'flags.innocenti-loot.isBroken': true, type: itemType }, { keepId: true });
                             checkUni.push(nitem);
                         }
                     }
@@ -278,14 +311,11 @@ export class LootInventary {
             quant = quant - removes;
             let nitem = undefined;
             if (quant > 0) {
-                if (foundryVersion >= 10) {
-                    nitem = item.clone({ 'system.quantity': quant, 'system.equipped': false }, { keepId: true });
-                } else {
-                    nitem = item.clone({ 'data.quantity': quant, 'data.equipped': false }, { keepId: true });
-                }
+                nitem = item.clone({ 'system.quantity': quant, 'system.equipped': false }, { keepId: true });
                 checkUni.push(nitem);
             }
         });
+        console.log("DAMEGED ITEMS", checkUni);
         return checkUni;
     }
 }

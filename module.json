@@ -1,7 +1,7 @@
 {
   "title": "Innocenti's Loot",
   "description": "Modules for loot monsters and Npcs",
-  "version": "0.2.44",
+  "version": "1.3.1",
   "authors": [
     {
       "name": "Innocenti",
@@ -108,6 +108,6 @@
   },
   "compatibility": {
     "minimum": "10",
-    "verified": "10"
+    "verified": "11"
   }
 }

@@ -17,13 +17,17 @@
                     <li class="item flexrow " data-item-id="{{this.id}}">
                         <div class="item-row flexrow">
                             <div class="item-name flexrow">
-                                <div class="item-image " style="background-image: url('{{this.data.img}}'); flex: 0 0 30px; ">
+                                <div class="item-image " style="background-image: url('{{this.img}}'); flex: 0 0 30px; ">
                                 </div>
-                                {{#if this.flags.innocenti-loot.convertGp}}<s>
-                                    {{/if}}
-                                    <h3 class="item-name flexrow">{{this.name}} x{{this.system.quantity}}</h3>
+                                <h3 class="flexrow">
+                                    {{#if this.flags.innocenti-loot.convertGp}}<s>{{/if}}
+                                    {{this.name}}
+                                    {{#if this.flags.innocenti-loot.convertGp}}</s>{{/if}}
+                                </h3>
+                                <h3 class="flexrow">x{{this.system.quantity}}</h3>
                                     {{#if this.flags.innocenti-loot.convertGp}}
-                                </s><h3>{{this.flags.innocenti-loot.convertGp}} gp</h3>{{/if}}
+                                <h3 style="text-align: right;">{{this.flags.innocenti-loot.convertGp}} {{this.system.price.denomination}}</h3>
+                                {{/if}}
                             </div>
                         </div>
                     </li>
@@ -31,19 +35,16 @@
                 </ol>
                 <ol class="items-list">
                     <li class="items-header flexrow">
-                        <h3 class="item-name flexrow">cp</h3>
-                        <h3 class="item-name flexrow">sp</h3>
+                        <h3 class="item-name flexrow">pp</h3>
                         <h3 class="item-name flexrow">gp</h3>
                         <h3 class="item-name flexrow">ep</h3>
-                        <h3 class="item-name flexrow">pp</h3>
+                        <h3 class="item-name flexrow">sp</h3>
+                        <h3 class="item-name flexrow">cp</h3>
                     </li>
                     <ol class="item-list">
                         <li class="item flexrow">
                             <div class="item-name">
-                                <h4>{{currency.cp}}</h4>
-                            </div>
-                            <div class="item-name">
-                                <h4>{{currency.sp}}</h4>
+                                <h4>{{currency.pp}}</h4>
                             </div>
                             <div class="item-name">
                                 <h4>{{currency.gp}}</h4>
@@ -52,7 +53,10 @@
                                 <h4>{{currency.ep}}</h4>
                             </div>
                             <div class="item-name">
-                                <h4>{{currency.pp}}</h4>
+                                <h4>{{currency.sp}}</h4>
+                            </div>
+                            <div class="item-name">
+                                <h4>{{currency.cp}}</h4>
                             </div>
                         </li>
                     </ol>

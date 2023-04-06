@@ -8,6 +8,12 @@ export const registerSettings = function () {
         1: game.i18n.localize('Looting.Settings.brokenType.1'),
         2: game.i18n.localize('Looting.Settings.brokenType.2')
     }
+    const rolltableTypes = {
+        'publicroll': game.i18n.localize('Looting.Settings.rolltableTypes.publicroll'),
+        'gmroll': game.i18n.localize('Looting.Settings.rolltableTypes.gmroll'),
+        'blindroll': game.i18n.localize('Looting.Settings.rolltableTypes.blindroll'),
+        'selfroll': game.i18n.localize('Looting.Settings.rolltableTypes.selfroll')
+    }
     const debouncedReload = foundry.utils.debounce(function () { window.location.reload(); }, 100);
     game.settings.register(MODULE_NAME, "interactDistance", {
         name: game.i18n.localize('Looting.Settings.interactDistance'),
@@ -17,6 +23,14 @@ export const registerSettings = function () {
         default: 1,
         type: Number
     });
+    game.settings.register(MODULE_NAME, "combatLoot", {
+        name: game.i18n.localize('Looting.Settings.combatLoot'),
+        hint: game.i18n.localize('Looting.Settings.combatLootHint'),
+        scope: "world",
+        config: true,
+        default: false,
+        type: Boolean
+    });
     game.settings.register(MODULE_NAME, "imageLoot", {
         name: game.i18n.localize('Looting.Settings.imageLoot'),
         hint: game.i18n.localize('Looting.Settings.imageLootHint'),
@@ -25,7 +39,16 @@ export const registerSettings = function () {
         default: "icons/svg/chest.svg",
         type: String
     });
-
+    game.settings.register(MODULE_NAME, "showRolltable", {
+        name: game.i18n.localize('Looting.Settings.showRolltable'),
+        hint: game.i18n.localize('Looting.Settings.showRolltableHint'),
+        scope: "world",
+        config: true,
+        choices: rolltableTypes,
+        default: "0",
+        onChange: value => console.log(value),
+        type: String
+    });
     game.settings.register(MODULE_NAME, "lootDamage", {
         name: game.i18n.localize('Looting.Settings.lootDamage'),
         hint: game.i18n.localize('Looting.Settings.lootDamageHint'),

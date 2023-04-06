@@ -22,7 +22,9 @@
     "invalidCheck": "{token} already been looted",
     "isalive": "The target is alive!",
     "thesame": "the looting token is the same as the loot token",
-    "notItem": "the item not exist in world"
+    "playerTarget": "Other players' characters cannot be looted",
+    "notItem": "the item not exist in world",
+    "noloot": "Does not have loot"
   },
   "Looting.Settings": {
     "percentWeapon": "Weapons Loot (%)",
@@ -57,10 +59,20 @@
     "convertBrokenHint": "Way to loot broken items",
     "imageLoot": "Loot image",
     "imageLootHint": "image that will be used in the loot token",
+    "showRolltable": "Show Rolltable result",
+    "showRolltableHint": "way that the rolltable will be displayed",
+    "combatLoot": "Create Loot at the End of Combat",
+    "combatLootHint": "This option makes it possible to create a single chest for all combat loot (Needs a module that allows coins in npcs, i.e. Loot Sheet NPC or DFreds Pocket Change)",
     "brokenType": {
       "0": "Ignore",
       "1": "Convert to loot",
       "2": "Auto sell"
+    },
+    "rolltableTypes": {
+      "publicroll": "Public Roll",
+      "gmroll": "Private GM Roll",
+      "blindroll": "Blind GM Roll",
+      "selfroll": "Self Roll"
     }
   }
 }

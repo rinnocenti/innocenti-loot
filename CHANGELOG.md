@@ -1,3 +1,24 @@
+#v 1.3.1 -> Pull for V11
+
+#v 0.3.1
+Version restored to V10 (possibly v11)
+
+* Fixed sending loot to a 3rd token.
+* Adapted for other systems (contact us if you want the module for any other system)
+* Fixed item values using DnD5e's demonination system.
+* Loot Sheet NPC or DFreds Pocket Change Not required, but required to use unique loot after combat.
+* Compatible with Better RollTables. (a currency generated loot table will also be added to the loot).
+* New Macros (Update as you wish).
+    * No Preview : The conversion and looting check screen does not appear, everything is looted automatically.
+    * GMRoll: Looting results will only be seen by the GM and the looter.
+    * and combined versions of the two.
+
+    Thanks More than special to Pablo Portilla, for encouraging the module, thank you very much.
+
+#v 0.2.45
+Clear Warnings for v10
+not suport v9 anymore.
+
 #v 0.2.44
 Patch for DND 2.1.5 (not cover all bugs)
 

@@ -36,13 +36,21 @@ export class InnocentiLoot {
             case 'sendLoot':
                 if (game.user.isGM) {
                     let gmaction = new GMActions(data);
+                    await gmaction.FlagTargets();
                     await gmaction.SendLoot();
                 }
                 break;
             case 'createLoot':
                 if (game.user.isGM) {
                     let gmaction = new GMActions(data);
+                    await gmaction.FlagTargets();
                     await gmaction.CreateLoot();
+                }
+                break;
+            case 'flagTarget':
+                if (game.user.isGM) {
+                    let gmaction = new GMActions(data);
+                    await gmaction.FlagTargets();
                 }
                 break;
             default:
@@ -50,7 +58,7 @@ export class InnocentiLoot {
         
     }
     static async onDeleteCombat(combat) {
-        if (game.user.isGM) {
+        if (game.user.isGM && setting("combatLoot") == true) {
             let apploot = new ActionLoot();
             await apploot.CheckCombat(combat);
         }

@@ -21,8 +21,9 @@
     "invalidDistance": "A distancia minima para esta interação é: {dist} quadros",
     "invalidCheck": "{token} já foi pilhado",
     "isalive": "O alvo ainda esta vivo!",
-    "notItem": "O item não existe no mundo",
+    "thesame": "the looting token is the same as the loot token",
     "playerTarget": "Personagens de outros jogadores não podem ser pilhados",
+    "notItem": "O item não existe no mundo",
     "noloot": "Não há ´pilhagens"
   },
   "Looting.Settings": {
@@ -32,10 +33,10 @@
     "percentEquipmentHint": "Porcentagem de chance das armas no inventório do NPC não servirem para pilhagem (Foram danificadas)",
     "percentConsumable": "Pilhagem de consumivel (%)",
     "percentConsumableHint": "Porcentagem de chance das armas no inventório do NPC não servirem para pilhagem (Foram danificadas)",
-    "interactDistance": "Distância máxima para interagir (em grade)",
-    "interactDistanceHint": "A distância mimáxima para os jogadores interagirem com a trava em unidades de grade do mapa",
     "removeItem": "Remover os Itens",
     "removeItemHint": "Se ativado remove os itens do token (não remove do ator a menos que o token estiver linkado)",
+    "interactDistance": "Distância máxima para interagir (em grade)",
+    "interactDistanceHint": "A distância mimáxima para os jogadores interagirem com a trava em unidades de grade do mapa",
     "lootSystem": "Sistema de Pilhagem",
     "lootSystemHint": "Escolha uma das formas para realizar a pilhagem (em breve)",
     "lootEquipable": "Pilhar equipamentos equipados",
@@ -58,10 +59,20 @@
     "convertBrokenHint": "Forma de pilhar itens quebrados",
     "imageLoot": "Imagem da Pilhagem",
     "imageLootHint": "imagem que sera usado no token da pilhagem",
+    "showRolltable": "Exibir Resultado da Tabela de rolagem",
+    "showRolltableHint": "como será exibido a tabela de rolagem",
+    "combatLoot": "Criar Pilhagem ao fim do combate",
+    "combatLootHint": "Esta opção possibilita criar um unico loot apra todas as pilhagens do combate (Precisa de algum modulo que permita moedas em npcs ex. Loot Sheet NPC or DFreds Pocket Change)",
     "brokenType": {
       "0": "Ignorar",
       "1": "Converter em Item",
       "2": "Vender Automaticamente"
+    },
+    "rolltableTypes": {
+      "publicroll": "Public Roll",
+      "gmroll": "Private GM Roll",
+      "blindroll": "Blind GM Roll",
+      "selfroll": "Self Roll"
     }
   }
 }
